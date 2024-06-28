@@ -26,8 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
             cell.textContent = currentPlayer;
             if (checkWin(currentPlayer)) {
                 setTimeout(() => alert(`${currentPlayer} wins!`), 100);
+                setTimeout(resetGame, 3000);
             } else if (board.every(cell => cell)) {
                 setTimeout(() => alert('Draw!'), 100);
+                setTimeout(resetGame, 3000);
             } else {
                 currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
             }
@@ -39,6 +41,15 @@ document.addEventListener('DOMContentLoaded', () => {
             return pattern.every(index => {
                 return board[index] === player;
             });
+        });
+    }
+    function resetGame() {
+        board.fill(null);
+        currentPlayer = 'X';
+        cells.forEach(cell => {
+            cell.textContent = '';
+            cell.removeEventListener('click', handleClick);
+            cell.addEventListener('click', handleClick, { once: true });
         });
     }
 });
